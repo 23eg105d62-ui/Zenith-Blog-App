@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: blog-app
+    env: node
+    plan: free # Change to a paid plan if needed
+    buildCommand: npm install && npm run build-frontend
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_URL
+        sync: false # Requires manual set in Render Dashboard (MongoDB Atlas)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLOUD_NAME
+        sync: false # Requires manual set in Render Dashboard
+      - key: API_KEY
+        sync: false # Requires manual set in Render Dashboard
+      - key: API_SECRET
+        sync: false # Requires manual set in Render Dashboard
+      - key: FRONTEND_URL
+        value: https://blog-app.onrender.com # Update this after first deployment if URL is different
