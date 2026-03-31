@@ -1,0 +1,13 @@
+{
+  "name": "blog-app-root",
+  "version": "1.0.0",
+  "scripts": {
+    "install-backend": "cd Blog-App-Backend && npm install",
+    "install-frontend": "cd Blog-App-Frontend && npm install",
+    "install-all": "npm run install-backend && npm run install-frontend",
+    "build-frontend": "cd Blog-App-Frontend && npm run build",
+    "start": "cd Blog-App-Backend && npm start",
+    "dev-backend": "cd Blog-App-Backend && npm run dev",
+    "dev-frontend": "cd Blog-App-Frontend && npm run dev"
+  }
+}

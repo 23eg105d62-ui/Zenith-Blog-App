@@ -7,13 +7,23 @@ import { adminRoute } from "./APIs/AdminApi.js";
 import { authorRoute } from "./APIs/AuthorApi.js";
 import { commonRouter } from "./APIs/CommonApi.js";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Get current directory for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 config(); //process.env
 
 //Create express application
 const app = exp();
 //use cors middleware
-app.use(cors({ origin: ["https://zenith-blog-application.vercel.app"], credentials: true }));
+const allowedOrigins = ["http://localhost:5173"];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware
@@ -40,88 +50,23 @@ const connectDB = async () => {
 
 connectDB();
 
-//dealing with invalid path
-app.use((req, res, next) => {
-    console.log(req.url);
-    res.json({ message: `${req.url} is invalid path` });
-});
+// Serve static files from the React frontend app in production
+if (process.env.NODE_ENV === "production") {
+    app.use(exp.static(path.join(__dirname, "../Blog-App-Frontend/dist")));
 
-//error handling middleware
-app.use((err, req, res, next) => {
-    console.log("Error name:", err.name);
-    console.log("Error code:", err.code);
-    console.log("Full error:", err);
-
-    // mongoose validation error
-    if (err.name === "ValidationError") {
-        return res.status(400).json({
-            message: "error occurred",
-            error: err.message,
-        });
-    }
-
-    // mongoose cast error
-    if (err.name === "CastError") {
-        return res.status(400).json({
-            message: "error occurred",
-            error: err.message,
-        });
-    }
-
-    const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
-    const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
-
-    if (errCode === 11000) {
-        const field = Object.keys(keyValue)[0];
-        const value = keyValue[field];
-        return res.status(409).json({
-            message: "error occurred",
-            error: `${field} "${value}" already exists`,
-        });
-    }
-
-    //  HANDLE CUSTOM ERRORS
-    if (err.status) {
-        return res.status(err.status).json({
-            message: "error occurred",
-            error: err.message,
-        });
-    }
-
-    // default server error
-    res.status(500).json({
-        message: "error occurred",
-        error: "Server side error",
+    // Handle React routing, return all requests to React app
+    app.get(/.*/, (req, res) => {
+        res.sendFile(path.join(__dirname, "../Blog-App-Frontend/dist/index.html"));
     });
-});
-app.use((err, req, res, next) => {
-    console.log("Error name:", err.name);
-    console.log("Error code:", err.code);
-    console.log("Error cause:", err.cause);
-    console.log("Full error:", JSON.stringify(err, null, 2));
-    //ValidationError
-    if (err.name === "ValidationError") {
-        return res.status(400).json({ message: "error occurred", error: err.message });
-    }
-    //CastError
-    if (err.name === "CastError") {
-        return res.status(400).json({ message: "error occurred", error: err.message });
-    }
-    const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
-    const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
+} else {
+    // dealing with invalid path in development
+    app.use((req, res, next) => {
+        console.log(req.url);
+        res.json({ message: `${req.url} is invalid path` });
+    });
+}
 
-    if (errCode === 11000) {
-        const field = Object.keys(keyValue)[0];
-        const value = keyValue[field];
-        return res.status(409).json({
-            message: "error occurred",
-            error: `${field} "${value}" already exists`,
-        });
-    }
-
-    //send server side error
-    res.status(500).json({ message: "error occurred", error: "Server side error" });
-});
+// Error handling middleware
 app.use((err, req, res, next) => {
     const status = err.status || err.statusCode || 500;
     const isProduction = process.env.NODE_ENV === "production";
