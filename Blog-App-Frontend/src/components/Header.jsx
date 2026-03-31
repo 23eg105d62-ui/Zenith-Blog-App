@@ -48,7 +48,6 @@ function Header() {
                         Zenith Blogs
                     </NavLink>
 
-                    {/* Desktop links */}
                     <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
                         {NAV_LINKS.map(({ label, to, end }) => (
                             <li key={label}>
@@ -74,7 +73,6 @@ function Header() {
                         )}
                     </ul>
 
-                    {/* Desktop CTAs */}
                     <div className="hidden md:flex items-center gap-2">
                         {!isAuthenticated ? (
                             <>
@@ -92,7 +90,6 @@ function Header() {
                         )}
                     </div>
 
-                    {/* Hamburger (mobile) */}
                     <button
                         className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 cursor-pointer"
                         onClick={() => setDrawerOpen(true)}
@@ -114,7 +111,6 @@ function Header() {
                 </div>
             </nav>
 
-            {/* ── Backdrop ─────────────────────────────────── */}
             <div
                 onClick={closeDrawer}
                 className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300 md:hidden"
@@ -124,7 +120,6 @@ function Header() {
                 }}
             />
 
-            {/* ── Slide-in Drawer ───────────────────────────── */}
             <div
                 className="fixed top-0 right-0 h-full w-72 bg-white z-50 flex flex-col md:hidden"
                 style={{
@@ -133,7 +128,6 @@ function Header() {
                     boxShadow: drawerOpen ? "-8px 0 40px rgba(0,0,0,0.08)" : "none",
                 }}
             >
-                {/* Drawer header */}
                 <div className="flex items-center justify-between px-6 h-[52px] border-b border-[#e8e8ed]">
                     <span className={navBrandClass}>MyBlog</span>
                     <button
@@ -147,7 +141,6 @@ function Header() {
                     </button>
                 </div>
 
-                {/* Drawer nav links */}
                 <nav className="flex flex-col px-4 pt-4 gap-1 flex-1">
                     {NAV_LINKS.map(({ label, to, end }) => (
                         <NavLink
@@ -183,7 +176,6 @@ function Header() {
                         </NavLink>
                     )}
 
-                    {/* Divider */}
                     <div className="border-t border-[#e8e8ed] my-3" />
 
                     {!isAuthenticated ? (
@@ -209,7 +201,6 @@ function Header() {
                     )}
                 </nav>
 
-                {/* Drawer footer */}
                 <div className="px-6 py-5 border-t border-[#e8e8ed]">
                     <p className="text-[0.72rem] text-[#a1a1a6]">© {new Date().getFullYear()} MyBlog</p>
                 </div>

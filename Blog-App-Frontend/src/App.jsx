@@ -100,5 +100,3 @@ export default App;
 
 
 
-//<ArticleByID />
-// <ArticleByID > content </ArticleByID>

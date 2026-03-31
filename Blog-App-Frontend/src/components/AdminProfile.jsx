@@ -26,7 +26,7 @@ function AdminProfile() {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("http://localhost:4000/admin-api/users", { withCredentials: true });
+            const res = await axios.get("https://zenith-blog-app.onrender.com/admin-api/users", { withCredentials: true });
             setUsers(res.data.payload);
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to fetch users");
@@ -43,7 +43,7 @@ function AdminProfile() {
         const action = currentlyBlocked ? "unblock" : "block";
         try {
             const res = await axios.put(
-                `http://localhost:4000/admin-api/users/${userId}/${action}`,
+                `https://zenith-blog-app.onrender.com/admin-api/users/${userId}/${action}`,
                 {},
                 { withCredentials: true }
             );

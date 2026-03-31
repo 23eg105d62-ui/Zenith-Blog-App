@@ -1,11 +1,11 @@
 import exp from "express";
 import { connect } from "mongoose";
 import { config } from "dotenv";
-import { userRoute } from "./APIs/UserAPI.js";
+import { userRoute } from "./APIs/UserApi.js";
 import cookieParser from "cookie-parser";
-import { adminRoute } from "./APIs/AdminAPI.js";
-import { authorRoute } from "./APIs/AuthorAPI.js";
-import { commonRouter } from "./APIs/CommonAPI.js";
+import { adminRoute } from "./APIs/AdminApi.js";
+import { authorRoute } from "./APIs/AuthorApi.js";
+import { commonRouter } from "./APIs/CommonApi.js";
 import cors from "cors";
 
 config(); //process.env
@@ -13,7 +13,7 @@ config(); //process.env
 //Create express application
 const app = exp();
 //use cors middleware
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+app.use(cors({ origin: ["https://zenith-blog-app.vercel.app/"], credentials: true }));
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware

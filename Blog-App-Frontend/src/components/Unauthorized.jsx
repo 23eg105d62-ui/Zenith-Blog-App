@@ -6,7 +6,6 @@ const Unauthorized = ({ delay = 5000 }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get redirectTo from state
   const redirectTo = location.state?.redirectTo || "/login";
   console.log("redirect",redirectTo)
 
