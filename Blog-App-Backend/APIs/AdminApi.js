@@ -9,7 +9,7 @@ import { UserModel } from '../models/UserModel.js'
 export const  adminRoute=exp.Router()
 
 //Register admin(protected route)
-adminRoute.post("/users", upload.single("profileImageUrl"), async (req, res, next) => {
+adminRoute.post("/users", verifyToken("ADMIN"), upload.single("profileImageUrl"), async (req, res, next) => {
   let cloudinaryResult;
 
   try {

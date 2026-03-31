@@ -12,7 +12,7 @@ export const useAuth = create((set) => ({
             //set loading true
             set({ loading: true, error: null });
             //make api call
-            let res = await axios.post("https://your-backend.onrender.com/common-api/login", userCredObj, { withCredentials: true });
+            let res = await axios.post("https://zenith-blog-app.onrender.com/common-api/login", userCredObj, { withCredentials: true });
             // console.log("res is ", res);
             //update state
             set({
@@ -36,7 +36,7 @@ export const useAuth = create((set) => ({
             //set loading state
             set({ loading: true, error: null });
             //make logout api req
-            await axios.get("https://your-backend.onrender.com/common-api/logout", { withCredentials: true });
+            await axios.get("https://zenith-blog-app.onrender.com/common-api/logout", { withCredentials: true });
             //update state
             set({
                 loading: false,
